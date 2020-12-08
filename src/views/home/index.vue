@@ -1,9 +1,15 @@
 <template>
-  <div>
-    <!-- <h1>首页</h1> -->
-    <div class="block">
-      <h2>Wellcome</h2>
-    </div>
+  <div class="home-container">
+    <header>
+      <div class="header-ad">
+        <img src="@assets/imgs/home-ad/top-ad.jpg" alt="">
+      </div>
+    </header>
+    <el-container>
+      <el-aside width="200px">Aside</el-aside>
+      <el-main>Main</el-main>
+    </el-container>
+    <footer>Footer</footer>
   </div>
 </template>
 
@@ -12,11 +18,13 @@
 
   }
 </script>
-<style scoped>
-.item {
-  padding: 15px;
-}
-.ml {
-  margin-left: 30px;
-}
+<style lang="less" scoped>
+  .home-container {
+    header {
+      height: 80px;
+    }
+    footer {
+      height: 60px;
+    }
+  }
 </style>

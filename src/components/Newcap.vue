@@ -28,13 +28,6 @@
   </div>
 </template>
 <script>
-function sum(x, y) {
-  return x + y;
-}
-
-function square(x) {
-  return x * x;
-}
 export default {
   name: "SlideVerify",
   props: {
@@ -79,7 +72,6 @@ export default {
       default: ""
     }
   },
-
   data() {
     return {
       containerActive: false, // container active class
@@ -119,7 +111,6 @@ export default {
     initDom() {
       this.block = this.$refs.block;
       this.canvasStr = this.$refs.canvas;
-
       this.canvasCtx = this.canvasStr.getContext("2d");
       this.blockCtx = this.block.getContext("2d");
       this.initImg()
@@ -135,7 +126,6 @@ export default {
       img.onload = function() {
         that.canvasCtx.drawImage(img, 0, 0, that.w, that.h);
       };
-
       this.img = img;
       const img1 = document.createElement("img");
       var blockCtx = that.blockCtx;
@@ -171,7 +161,6 @@ export default {
         this.sliderLeft = moveX + "px";
         let blockLeft = ((this.w - 40 - 20) / (this.w - 40)) * moveX;
         this.block.style.left = blockLeft + "px";
-
         this.containerActive = true; // add active
         this.sliderMaskWidth = moveX + "px";
         this.trail.push(moveY);
@@ -192,7 +181,6 @@ export default {
       this.sliderLeft = moveX + "px";
       let blockLeft = ((this.w - 40 - 20) / (this.w - 40)) * moveX;
       this.block.style.left = blockLeft + "px";
-
       this.containerActive = true;
       this.sliderMaskWidth = moveX + "px";
       this.trail.push(moveY);
@@ -205,10 +193,6 @@ export default {
       this.verify();
     },
     verify() {
-      const arr = this.trail; // drag y move distance
-      const average = arr.reduce(sum) / arr.length; // average
-      const deviations = arr.map(x => x - average); // deviation array
-      const stddev = Math.sqrt(deviations.map(square).reduce(sum) / arr.length); // standard deviation
       const left = parseInt(this.block.style.left);
       this.$emit("success", left);
     },
@@ -260,13 +244,11 @@ export default {
   position: relative;
   width: 310px;
 }
-
 .slide-verify-block {
   position: absolute;
   left: 0;
   top: 0;
 }
-
 .slide-verify-refresh-icon {
   position: absolute;
   right: 0;
@@ -287,7 +269,6 @@ export default {
   transform: rotate(180deg);
   transition: all 0.2s ease-in-out;
 }
-
 .slide-verify-slider {
   position: relative;
   text-align: center;
@@ -299,7 +280,6 @@ export default {
   color: #45494c;
   border: 1px solid #e4e7eb;
 }
-
 .slide-verify-slider-mask {
   position: absolute;
   left: 0;
@@ -308,7 +288,6 @@ export default {
   border: 0 solid #1991fa;
   background: #d1e9fe;
 }
-
 .slide-verify-info {
   position: absolute;
   top: 160px;
@@ -342,15 +321,12 @@ export default {
   cursor: pointer;
   transition: background 0.2s linear;
 }
-
 .slide-verify-slider-mask-item:hover {
   background: #1991fa;
 }
-
 .slide-verify-slider-mask-item:hover .slide-verify-slider-mask-item-icon {
   background-position: 0 -13px;
 }
-
 .slide-verify-slider-mask-item-icon {
   position: absolute;
   top: 15px;
@@ -365,47 +341,39 @@ export default {
   top: -1px;
   border: 1px solid #1991fa;
 }
-
 .container-active .slide-verify-slider-mask {
   height: 38px;
   border-width: 1px;
 }
-
 .container-success .slide-verify-slider-mask-item {
   height: 38px;
   top: -1px;
   border: 1px solid #52ccba;
   background-color: #52ccba !important;
 }
-
 .container-success .slide-verify-slider-mask {
   height: 38px;
   border: 1px solid #52ccba;
   background-color: #d2f4ef;
 }
-
 .container-success .slide-verify-slider-mask-item-icon {
   background-position: 0 0 !important;
 }
-
 .container-fail .slide-verify-slider-mask-item {
   height: 38px;
   top: -1px;
   border: 1px solid #f57a7a;
   background-color: #f57a7a !important;
 }
-
 .container-fail .slide-verify-slider-mask {
   height: 38px;
   border: 1px solid #f57a7a;
   background-color: #fce1e1;
 }
-
 .container-fail .slide-verify-slider-mask-item-icon {
   top: 14px;
   background-position: 0 -82px !important;
 }
-
 .container-active .slide-verify-slider-text,
 .container-success .slide-verify-slider-text,
 .container-fail .slide-verify-slider-text {

@@ -1,5 +1,7 @@
 <template>
-  <router-view></router-view>
+  <div class="commom-layout">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
@@ -7,3 +9,10 @@
 
   }
 </script>
+
+<style lang="less">
+  .commom-layout {
+    width: 1240px;
+    margin: 0 auto;
+  }
+</style>

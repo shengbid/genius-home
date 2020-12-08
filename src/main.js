@@ -4,16 +4,13 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 /* 引入公用filter */
 import filter from '@/mixin/filter'
-// import Print from 'vue-print-nb'
-import Print from './utils/vue-print-nb/src'
 // import store from './vuex/store'
 import router from './router'
-import './permisson'
+// import './permisson'
 import '../mock'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-Vue.use(Print)
 
 Vue.mixin(filter) // 混入公用filter
 

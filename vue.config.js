@@ -27,6 +27,10 @@ module.exports = {
   crossorigin: undefined, // 设置生成的 HTML 中 <link rel="stylesheet"> 和 <script> 标签的 crossorigin 属性
   integrity: false, // 生成的 HTML 中的 <link rel="stylesheet"> 和 <script> 标签上启用 Subresource Integrity (SRI)
 
+  devServer: {
+    port: 8082,
+    open: true
+  },
   // webpack配置 - 简单配置方式
   configureWebpack: {
     resolve: {
