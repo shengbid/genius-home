@@ -30,4 +30,21 @@ a {
   text-decoration: none;
   color: inherit;
 }
+.left-f {
+  float: left;
+}
+.right-f {
+  float: right;
+}
+.clearfix {
+  clear: both;
+}
+.clearfix::after {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  line-height: 0;
+  overflow: hidden;
+}
 </style>

@@ -14,9 +14,9 @@ export default [
           const item = {
             id: Random.id(),
             level,
-            name: Random.title(1, 4), 
+            name: Random.word(3, 5), 
           }
-          if (level > 4) {
+          if (level >2) {
             return
             // 方法2
             // return data
@@ -25,7 +25,7 @@ export default [
           const number =  Mock.mock({
             "number|1-6": 6
           })
-          item.childs = loop([], number.number, level)
+          item.children = loop([], number.number, level)
           
           // 方法2
           // const childrens = Mock.mock({
