@@ -6,10 +6,18 @@ export const getClassify = () => {
     method: 'get'
   })
 }
-// 获取表格数据
-export const getCheckTaleList = (data) => {
+// 获取平台数据
+export const getMainCompanyList = (data) => {
   return request({
-    url: '/get/check/table/list',
+    url: '/get/main/company/list',
+    method: 'get',
+    data
+  })
+}
+// 获取平台广告数据
+export const getAdList = (data) => {
+  return request({
+    url: '/get/main/ad/list',
     method: 'get',
     data
   })

@@ -18,6 +18,9 @@ html {
 body {
   margin: 0;
   height: 100%;
+  font-size: 12px;
+  color: #333;
+  background-color: #f7f7f7;
 }
 ul {
   padding: 0;
@@ -29,6 +32,10 @@ li {
 a {
   text-decoration: none;
   color: inherit;
+}
+img {
+  width: 100%;
+  height: 100%;
 }
 .left-f {
   float: left;
@@ -46,5 +53,8 @@ a {
   height: 0;
   line-height: 0;
   overflow: hidden;
+}
+.bg-white {
+  background-color: #fff;
 }
 </style>

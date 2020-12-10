@@ -28,7 +28,7 @@ module.exports = {
   integrity: false, // 生成的 HTML 中的 <link rel="stylesheet"> 和 <script> 标签上启用 Subresource Integrity (SRI)
 
   devServer: {
-    port: 8082,
+    port: 8083,
     open: true
   },
   // webpack配置 - 简单配置方式

@@ -8,7 +8,8 @@ export default [
     response: () => {
       // 创建树形数据
       let data = []
-      const loop = (data, count = 3, l = 0) => {
+      // const number = Random.natural(1, 10)
+      const loop = (data, count = 4, l = 0) => {
         const level = l + 1
         for (let i = 0; i < count; i++) {
           const item = {
@@ -23,7 +24,7 @@ export default [
           }
 
           const number =  Mock.mock({
-            "number|1-6": 6
+            "number|1-10": 6
           })
           item.children = loop([], number.number, level)
           
@@ -55,30 +56,41 @@ export default [
     }
   },
   {
-    url: '/get/check/table/list',
+    url: '/get/main/company/list',
     type: 'get',
     response: (config) => {
-      const page = config.body ? (JSON.parse(config.body)).page : 1
-      let index = 0
-      switch (Number(page)) {
-        case 2:
-          index = 10
-          break;
-        case 3:
-          index = 20
-          break;
-      
-        default:
-          index = 0
-          break;
-      }
+      const count = config.body ? (JSON.parse(config.body)).count : 1
       let data = []
-      for (let i = index; i < index + 10; i++) {
+      for (let i = 0; i < count; i++) {
         const obj = {
-          id: i,
-          name: '黎明' + i,
-          age: Math.floor(Math.random() * 20 + 1),
-          class: Math.floor(Math.random() * 5 + 1)
+          id: Random.increment(),
+          name: '科技公司' + i,
+          text: '设计公司LOGO',
+          time: Random.date(),
+          status: Random.natural(0, 2),
+          price: Random.natural(500, 50000),
+          logo: Random.image('150x180', Random.color()),
+          credit: Random.natural(0, 5),
+          detail: Random.paragraph(1, 3)
+        }
+        data.push(obj)
+      }
+      return {
+        code: 200,
+        message: 'success',
+        data
+      }
+    }
+  },
+  {
+    url: '/get/main/ad/list',
+    type: 'get',
+    response: () => {
+      let data = []
+      for (let i = 0; i < 5; i++) {
+        const obj = {
+          id: Random.increment(),
+          fileUrl: Random.image('320x220', Random.color(), '广告')
         }
         data.push(obj)
       }
