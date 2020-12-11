@@ -30,6 +30,11 @@
         >
           {{ item }}
         </li>
+        <li class="co-login right-f">
+          <span @click="login(0)">登录</span>
+          <div class="line"></div>
+          <span @click="login(1)">注册</span>
+        </li>
       </ul>
     </div>
     <el-container class="com-container">
@@ -193,6 +198,14 @@
         })
       },
 
+      // 点击登录注册跳转
+      login(type) {
+        this.$router.push({
+          name: 'Login',
+          params: {type}
+        })
+      },
+
       // 循环商圈数据
       loadCompany() {
         this.count += 2
@@ -268,6 +281,20 @@
             background-color: #e61717;
             color: #fff;
             width: 200px;
+          }
+        }
+        .co-login {
+          color: #e61717;
+          line-height: 40px;
+          span {
+            cursor: pointer;
+          }
+          .line {
+            display: inline-block;
+            width: 1px;
+            height: 10px;
+            background-color: #ccc;
+            margin: 0 10px;
           }
         }
       }

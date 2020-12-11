@@ -22,6 +22,9 @@ body {
   color: #333;
   background-color: #f7f7f7;
 }
+#app {
+  height: 100%;
+}
 ul {
   padding: 0;
   margin: 0;

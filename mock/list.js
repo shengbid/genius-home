@@ -100,5 +100,24 @@ export default [
         data
       }
     }
+  },
+  {
+    url: '/get/main/adlogin/list',
+    type: 'get',
+    response: () => {
+      let data = []
+      for (let i = 0; i < 5; i++) {
+        const obj = {
+          id: Random.increment(),
+          fileUrl: Random.image('900x600', Random.color(), '广告')
+        }
+        data.push(obj)
+      }
+      return {
+        code: 200,
+        message: 'success',
+        data
+      }
+    }
   }
 ]

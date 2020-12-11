@@ -1,10 +1,11 @@
 <template>
-  <div class="contanier">
+  <div class="layout-contanier com-container">
     <div class="left-contanier">
       <SiderMenu />
     </div>
     <div class="right-contanier">
-      <div class="bread">
+      <router-view />
+      <!-- <div class="bread">
         <div class="left-bread">
           <BreadCrumb />
         </div>
@@ -26,19 +27,22 @@
         <div class="view-main">
           <router-view />
         </div>
-      </div>
+      </div> -->
+      <copyrightFooter />
     </div>
   </div>
 </template>
 
 <script>
   import SiderMenu from './components/sider'
-  import BreadCrumb from './components/breadcrumb'
+  import copyrightFooter from './components/copyrightFooter'
+  // import BreadCrumb from './components/breadcrumb'
 
   export default {
     components: {
       SiderMenu,
-      BreadCrumb
+      copyrightFooter
+      // BreadCrumb
     },
     methods: {
       clickDropdown(command) {
@@ -53,7 +57,7 @@
 </script>
 
 <style scoped lang="less">
-.contanier {
+.contanier1 {
   display: flex;
   position: relative;
   height: 100%;
@@ -103,4 +107,12 @@
     }
   }
 }
+</style>
+<style lang="less">
+  .layout-contanier .left-contanier .el-menu-item {
+    float: left;
+    height: 60px;
+    line-height: 60px;
+    margin: 0;
+  }
 </style>

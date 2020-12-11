@@ -1,32 +1,130 @@
 <template>
   <div>
-    <div class="login-content">
-      <div class="login-info">
-        <h2>登陆</h2>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="账号" prop="account">
-            <el-input
-            v-model="ruleForm.account"
-            :maxlength="50"
-            placeholder="账号admin"
-            />
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input 
-            v-model="ruleForm.password" 
-            :maxlength="30"
-            placeholder="密码123456"
-            auto-complete="new-password"
-            show-password
-            />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">登陆</el-button>
-            <el-button class="forget" type="text" @click="forgetPass.visible=true">忘记密码?</el-button>
-          </el-form-item>
-          <p>账号密码错误将弹出验证码弹窗</p>
-        </el-form>
-      </div>
+    <div class="login-content bg-white">
+      <header class="header-container com-container">
+        <div class="he-content clearfix">
+          <div class="he-logo left-f">
+            <img src="@assets/imgs/logo/logo.png" alt="">
+          </div>
+          <span class="line left-f">/</span>
+          <div class="wellcome left-f">欢迎登录</div>
+        </div>
+      </header>
+      <section class="login-container">
+        <div class="login-box com-container">
+          <div class="login-ad">
+            <el-carousel height="600px">
+              <el-carousel-item v-for="item in loginAdList" :key="item.id">
+                <img :src="item.fileUrl" alt="">
+              </el-carousel-item>
+            </el-carousel>
+          </div>
+          <div class="login-info bg-white">
+            <ul class="login-tab">
+              <li
+                class="tab-item left-f" 
+                :class="{'tab-active': activeName===1}"
+                @click="activeName=1"
+              >
+                登录
+              </li>
+              <li 
+                class="tab-item left-f" 
+                :class="{'tab-active': activeName===2}"
+                @click="activeName=2"
+              >
+                注册
+              </li>
+            </ul>
+            <div v-show="activeName===1">
+              <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+                <el-form-item prop="account">
+                  <el-input
+                  v-model="ruleForm.account"
+                  :maxlength="50"
+                  placeholder="账号/邮箱"
+                  >
+                    <template slot="prepend" icon="el-icon-user-solid"></template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item prop="password">
+                  <el-input 
+                  v-model="ruleForm.password" 
+                  :maxlength="30"
+                  placeholder="密码"
+                  auto-complete="new-password"
+                  show-password
+                  >
+                  <template slot="prepend" icon="el-icon-lock"></template>
+                </el-input>
+                </el-form-item>
+                <div class="forget">
+                  <el-button class="fo-bt" type="text" @click="forgetPass.visible=true">忘记密码?</el-button>
+                </div>
+                <el-form-item>
+                  <el-button class="login-bt" type="primary" @click="submitForm('ruleForm')">登陆</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
+            <div v-show="activeName===2">
+              <el-form 
+                :model="register.registerForm" 
+                :rules="register.rules" 
+                ref="registerForm" 
+                class="demo-ruleForm"
+              >
+                <el-form-item prop="account">
+                  <el-input
+                  v-model="register.registerForm.account"
+                  :maxlength="50"
+                  placeholder="邮箱"
+                  >
+                    <template slot="prepend" icon="el-icon-user-solid"></template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item prop="password">
+                  <el-input 
+                  v-model="register.registerForm.password" 
+                  :maxlength="30"
+                  placeholder="密码"
+                  auto-complete="new-password"
+                  show-password
+                  >
+                  <template slot="prepend" icon="el-icon-lock"></template>
+                </el-input>
+                </el-form-item>
+                <el-form-item prop="password">
+                  <el-input 
+                  v-model="register.registerForm.code" 
+                  :maxlength="6"
+                  placeholder="验证码"
+                  >
+                  <template slot="prepend" icon="el-icon-key"></template>
+                </el-input>
+                </el-form-item>
+                <div class="type">
+                  <el-checkbox v-model="register.buyer">成为牛人</el-checkbox>
+                  <el-checkbox v-model="register.supplier">成为商户</el-checkbox>
+                </div>
+                <div class="agreement">
+                  <el-checkbox v-model="register.agree">
+                    我已阅读并接受
+                    <a class="register" href="javascript:viod(0)">《注册协议》</a>
+                  </el-checkbox>
+                </div>
+                <el-form-item>
+                  <el-button class="login-bt" type="primary" @click="submitRegister('ruleForm')">注册</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <footer class="copyright">
+        ©CopyRight 2006-2020 JB51.Net Inc All Rights Reserved. G商汇 版权所有
+      </footer>
     </div>
 
   <!-- 滑动验证码弹框 -->
@@ -56,35 +154,35 @@
       title="忘记密码"
       :close-on-click-modal="false"
       width="450px">
-       <el-form :model="forgetPass.ruleForm" :rules="forgetPass.rules" ref="forgetruleForm" label-width="80px" class="demo-ruleForm">
-          <el-form-item label="账号" prop="account">
+       <el-form :model="forgetPass.ruleForm" :rules="forgetPass.rules" ref="forgetruleForm" class="demo-ruleForm">
+          <el-form-item  prop="account">
             <el-input
             v-model="forgetPass.ruleForm.account"
             :maxlength="50"
-            placeholder="请输入账号"
+            placeholder="账号"
             />
           </el-form-item>
-          <el-form-item label="手机号" prop="phone">
+          <el-form-item  prop="phone">
             <el-input 
             v-model="forgetPass.ruleForm.phone" 
             :maxlength="30"
-            placeholder="请输入手机号码"
+            placeholder="邮箱"
             >
              <el-button slot="append" @click="sendCode" type="text">{{forgetPass.disabledTips}}</el-button>
             </el-input>
           </el-form-item>
-          <el-form-item label="验证码" prop="verificationCode">
+          <el-form-item prop="verificationCode">
             <el-input 
             v-model="forgetPass.ruleForm.verificationCode" 
             :maxlength="6"
-            placeholder="123456"
+            placeholder="验证码"
             />
           </el-form-item>
-          <el-form-item label="新密码" prop="newPass">
+          <el-form-item prop="newPass">
             <el-input 
             v-model="forgetPass.ruleForm.newPass" 
             :maxlength="30"
-            placeholder="请输入新密码"
+            placeholder="新密码"
             auto-complete="new-password"
             show-password
             />
@@ -100,12 +198,14 @@
 
 <script>
   import slideverify from '@/components/Newcap.vue'
+  import { getAdLoginList } from '@/service/login'
   import common from '@/utils/common'
   import img1 from '@assets/imgs/rotate1.jpg'
   import img2 from '@assets/imgs/rotate2.jpg'
   import img3 from '@assets/imgs/rotate3.jpg'
   import img4 from '@assets/imgs/rotate4.jpg'
   export default {
+    name: 'Login',
     components: {
       slideverify
     },
@@ -166,10 +266,37 @@
         rules: {
           account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
           password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
-        }
+        },
+        loginAdList: [],
+        activeName: 1,
+        register: {
+          registerForm: {
+            account: '',
+            password: '',
+            code: ''
+          },
+          buyer: false,
+          supplier: false,
+          agree: false,
+          rules: {
+            account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+            password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+            code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
+          }
+        } // 忘记密码
       }
     },
+    created() {
+      this.getAddata()
+    },
     methods: {
+      // 获取登录广告图片
+      getAddata() {
+        getAdLoginList().then(res => {
+          this.loginAdList = res.data
+        })
+      },
+
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -182,7 +309,12 @@
               this.$refs.dialogopen && this.$refs.dialogopen.reset(h)
             } else {
               sessionStorage.setItem('login', 'login')
-              this.$router.push('home')
+              this.$router.push({
+                name: 'User',
+                params: {
+                  type: this.register.buyer ? 1 : 2
+                }
+              })
             }
           } else {
             console.log('error submit!!')
@@ -234,8 +366,8 @@
       submitPass(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$message.success('修改成功')
-            this.forgetPass.visible = false
+            this.$message.success('注册成功,请登录')
+            
           } else {
             console.log('error submit!!')
             return false
@@ -263,35 +395,105 @@
             this.forgetPass.disabledTips = '获取验证码'
           }
         }, 1000)
-      }
+      },
+      // 注册
+      submitRegister(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.$message.success('修改成功')
+            this.forgetPass.visible = false
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      },
     }
   }
 </script>
 
 <style scoped lang='less'>
 .login-content {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(#000, 0.5);
-  .login-info {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -250px;
-    margin-top: -180px;
-    width: 500px;
-    height: 360px;
-    background-color: #fff;
-    padding-top: 30px;
-    padding-right: 40px;
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
+  .header-container {
+    padding: 30px 0;
+    .he-logo {
+      width: 280px;
+      height: 60px;
     }
-    .forget {
-      margin-left: 264px;
+    .line {
+      font-size: 30px;
+      color: #eee;
+      padding-left: 15px;
+      padding-top: 5px;
+    }
+    .wellcome {
+      width: 45px;
+      font-size: 16px;
+      line-height: 20px;
+      margin-top: 8px;
+      margin-left: 15px;
     }
   }
+
+  .login-container {
+    // background-image: url("https://img11.weikeimg.com/data/uploads/sys/campaign/6368162085dc13d586bac6.jpg");
+    background-color: #2fbb40;
+    height: 600px;
+    padding-top: 30px;
+    padding-bottom: 60px;
+    .login-box {
+      display: flex;
+    }
+    .login-ad {
+      flex: 1;
+    }
+    .login-info {
+      flex-basis: 300px;
+      padding: 30px;
+      .login-tab {
+        display: flex;
+        margin-bottom: 25px;
+        .tab-item {
+          flex: 1;
+          line-height: 30px;
+          padding-bottom: 10px;
+          font-size: 18px;
+          border-bottom: 1px solid #e9e9e9; 
+          color: #666;
+          text-align: center;
+          cursor: pointer;
+          &.tab-active {
+            border-bottom: 2px solid #e61717;
+            color: #e61717;
+          }
+        }
+      }
+      .forget {
+        text-align: right;
+        margin-top: -15px;
+        margin-bottom: 10px;
+      }
+      .login-bt {
+        width: 100%;
+        background-color: #e61717;
+        border-color: #e61717;
+      }
+      .agreement {
+        margin: 20px 0;
+        .register {
+          color: #409eff;
+        }
+      }
+    }
+  }
+  .copyright {
+    text-align: center;
+    color: #ccc;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    padding-top: 20px;
+    background-color: #f7f7f7;
+  } 
 }
 </style>

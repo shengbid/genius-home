@@ -1,7 +1,8 @@
 <template>
     <el-menu
       default-active="2"
-      class="el-menu-vertical-demo"
+      class="el-menu-demo"
+      mode="horizontal"
       @open="handleOpen"
       @select="handleSelect"
       :default-openeds="defaultOpen"
@@ -43,10 +44,10 @@ export default {
       this.defaultOpen = common.handleRouteToArray(route)
     },
     handleOpen(key, keyPath) {
-      // console.log(key, keyPath);
+      console.log(key, keyPath);
     },
     handleSelect(key, keyPath) {
-      // console.log(key, keyPath);
+      console.log(key, keyPath);
     }
   }
 }

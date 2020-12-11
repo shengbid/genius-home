@@ -3,12 +3,13 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+import Layout from '@/layout'
 import CommonLayout from '@/layout/commonLayout'
 
 const constantRoter = [{
   path: '/login',
   component: () => import('@/views/login'),
-  name: 'login',
+  name: 'Login',
 }, {
   path: '/',
   component: CommonLayout,
@@ -17,8 +18,34 @@ const constantRoter = [{
     {
       path: 'home',
       component: () => import('@/views/home'),
-      name: 'home',
+      name: 'Home',
       meta: { title: '首页', icon: 'el-icon-s-home' }
+    }
+  ]
+}, {
+  path: '/user',
+  component: Layout,
+  redirect: '/user/home',
+  children: [
+    {
+      path: 'home',
+      component: () => import('@/views/user/user'),
+      name: 'User'
+    },
+    {
+      path: 'identity',
+      component: () => import('@/views/user/identity'),
+      name: 'Identity'
+    },
+    {
+      path: 'photo',
+      component: () => import('@/views/user/photo'),
+      name: 'Photo'
+    },
+    {
+      path: 'resume',
+      component: () => import('@/views/user/resume'),
+      name: 'Resume'
     }
   ]
 }
