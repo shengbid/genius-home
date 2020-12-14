@@ -74,7 +74,7 @@
                   <span 
                     class="normal"
                     :class="{urgent: item.status === 1, lose: item.status === 2 }"
-                  >{{handleStatus(item.status)}}</span>
+                  >{{item.status | handleStatus()}}</span>
                 </div>
                 <div class="ct-price">价格: ￥{{item.price}}</div>
                 <div class="ct-credit">
@@ -212,25 +212,6 @@
         // this.getMainCompanyData()
       },
 
-      // 处理商圈状态
-      handleStatus(val) {
-        let text = ''
-        switch (val) {
-          case 0:
-            text = '有效'
-            break;
-          case 1:
-            text = '加急'
-            break;
-          case 2:
-            text = '失效'
-            break;
-        
-          default:
-            break;
-        }
-        return text
-      },
       selectClassify(i) {
         // this.isActive = i
         console.log(i)

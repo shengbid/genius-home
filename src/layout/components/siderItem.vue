@@ -50,9 +50,10 @@ export default {
 
 <style>
   .el-menu .active {
-    color: #ffd04b !important;
+    color: #e61717 !important;
+    border-bottom: 2px solid #e61717 !important;
   }
   .el-menu .active i {
-      color: #ffd04b !important;
+      color: #e61717 !important;
     }
 </style>

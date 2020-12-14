@@ -31,6 +31,26 @@ export default {
     // 格式化数量
     formatNumber (val) {
       return common.formatAmount(val)
+    },
+
+    // 处理商圈状态
+    handleStatus(val) {
+      let text = ''
+      switch (val) {
+        case 0:
+          text = '有效'
+          break;
+        case 1:
+          text = '加急'
+          break;
+        case 2:
+          text = '失效'
+          break;
+      
+        default:
+          break;
+      }
+      return text
     }
   }
 }

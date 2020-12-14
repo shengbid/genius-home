@@ -71,6 +71,7 @@
   background-color: #333;
   padding-top: 15px;
   height: 260px;
+  margin-top: 20px;
 
   .footer-content {
     height: 220px;

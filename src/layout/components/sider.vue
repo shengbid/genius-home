@@ -6,9 +6,8 @@
       @open="handleOpen"
       @select="handleSelect"
       :default-openeds="defaultOpen"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b">
+      text-color="#666"
+      active-text-color="#e61717">
       <SiderItem :menus="menus" />
     </el-menu>
 </template>

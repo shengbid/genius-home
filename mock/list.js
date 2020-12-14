@@ -119,5 +119,25 @@ export default [
         data
       }
     }
+  },
+  {
+    url: '/get/main/concat/list',
+    type: 'get',
+    response: () => {
+      let data = []
+      for (let i = 0; i < 7; i++) {
+        const obj = {
+          id: Random.increment(),
+          count: Random.natural(0, 20),
+          fileUrl: Random.image('190x205', Random.color(), 'user')
+        }
+        data.push(obj)
+      }
+      return {
+        code: 200,
+        message: 'success',
+        data
+      }
+    }
   }
 ]

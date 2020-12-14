@@ -1,41 +1,45 @@
 <template>
-  <div class="layout-contanier com-container">
-    <div class="left-contanier">
-      <SiderMenu />
-    </div>
-    <div class="right-contanier">
-      <router-view />
-      <!-- <div class="bread">
-        <div class="left-bread">
-          <BreadCrumb />
-        </div>
-        <div class="right-bread">
-          <el-dropdown @command="clickDropdown">
-            <span class="el-dropdown-link">
-              潇潇羽西<i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="1">退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
-        <div class="img-view">
-          <el-avatar class="img-icon" icon="el-icon-user-solid"></el-avatar>
-        </div>
+  <div class="layout-contanier">
+    <div class="bg-white">
+      <div class="left-contanier com-container">
+        <SiderMenu />
       </div>
-      <div class="view-container">
-        <div class="view-main">
-          <router-view />
-        </div>
-      </div> -->
-      <copyrightFooter />
     </div>
+    <div class="com-container">
+      <div class="right-contanier">
+        <router-view />
+        <!-- <div class="bread">
+          <div class="left-bread">
+            <BreadCrumb />
+          </div>
+          <div class="right-bread">
+            <el-dropdown @command="clickDropdown">
+              <span class="el-dropdown-link">
+                潇潇羽西<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="1">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+          <div class="img-view">
+            <el-avatar class="img-icon" icon="el-icon-user-solid"></el-avatar>
+          </div>
+        </div>
+        <div class="view-container">
+          <div class="view-main">
+            <router-view />
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <copyrightFooter />
   </div>
 </template>
 
 <script>
   import SiderMenu from './components/sider'
-  import copyrightFooter from './components/copyrightFooter'
+  import copyrightFooter from './components/footer'
   // import BreadCrumb from './components/breadcrumb'
 
   export default {
