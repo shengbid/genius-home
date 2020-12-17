@@ -2,48 +2,21 @@
   <div class="user-container">
     <section>
       <div class="ct-container">
-        <ul class="ct-list">
-          <li
-            :key="item.id"
-            v-for="item in mianCompanyList" 
-            class="infinite-list-item clearfix main-box bg-white"
-            >
-            <div class="ct-logo">
-              <img :src="item.logo" alt="">
+        <!-- 商汇列表 -->
+        <Require :mianCompanyList="mianCompanyList">
+          <template slot="detail" slot-scope="scope">
+            <div class="oprate">
+              <el-button type="primary">获取联系方式</el-button>
+              <el-button type="info">踢出商汇</el-button>
+              <el-button type="text" class="de-button">详情</el-button>
             </div>
-            <div class="ct-content">
-              <div class="ct-title">{{item.name}}</div>
-              <div class="ct-text">{{item.text}}</div>
-              <div class="ct-time">拉入时间: <span class="m-tit">{{item.time}}</span></div>
-              <div class="ct-status">
-                发布状态: 
-                <span 
-                  class="normal"
-                  :class="{urgent: item.status === 1, lose: item.status === 2 }"
-                >{{item.status | handleStatus()}}</span>
-              </div>
-              <div class="ct-price">价格: ￥{{item.price}}</div>
-              <div class="ct-credit">
-                <span>信誉度:</span>
-                <el-rate
-                  v-model="item.credit"
-                  disabled
-                  text-color="#ff9900"/>
-                </div>
+            <div class="de-text">
+              <span class="de-title">业务简介:</span>
+              {{ scope.item.detail }}
             </div>
-            <div class="ct-detail">
-              <div class="oprate">
-                <el-button type="primary">获取联系方式</el-button>
-                <el-button type="info">踢出我的商汇</el-button>
-                <el-button type="text" class="de-button">详情</el-button>
-              </div>
-              <div class="de-text">
-                <span class="de-title">业务简介:</span>
-                {{ item.detail }}
-              </div>
-            </div>
-          </li>
-        </ul>
+          </template>
+        </Require>
+
         <!-- 联系人 -->
         <div class="concat-container">
           <div class="concat-content bg-white">
@@ -90,28 +63,7 @@
 
       </div>
       <!-- 历史商汇 -->
-      <div class="history-container bg-white">
-        <div class="hi-title">历史商汇</div>
-        <div>
-          <el-carousel indicator-position="outside">
-            <el-carousel-item
-              v-for="(item, i) in historyList"
-              :key="i"
-            >
-              <ul class="ca-list">
-                <li 
-                  class="ca-item"
-                  v-for="subItem in item"
-                  :key="subItem.id"
-                  @click="histiryClick(subItem)"
-                >
-                  <img :src="subItem.fileUrl" alt="">
-                </li>
-              </ul>
-            </el-carousel-item>
-          </el-carousel>
-        </div>
-      </div>
+      <History />
     </section>
   </div>
 </template>
@@ -119,16 +71,18 @@
 <script>
   import { getMainCompanyList } from '@/service/list'
   import { getConcatList } from '@/service/user'
+  import History from '@/components/HistoryBussiness'
+  import Require from '@/components/BussinessReqiure'
 
   export default {
     name: 'User',
+    components: {History, Require},
     data() {
       return {
         mianCompanyList: [],
         count: 7,
         loginStatus: '1',
         concatList: [],
-        historyList: [],
         adImg: ''
       }
     },
@@ -151,26 +105,10 @@
       getConcatData() {
         getConcatList().then(res => {
           const data = res.data
-          this.concatList = JSON.parse(JSON.stringify(res.data))
+          this.concatList = JSON.parse(JSON.stringify(data))
           this.concatList = this.concatList.splice(0, 6)
           this.adImg = this.concatList[0].fileUrl
-          const arr = []
-          const loop = (info) => {
-            if (info.length > 5) {
-              arr.push(info.splice(0, 5))
-              loop(info)
-            } else {
-              arr.push(info)
-            }
-          }
-          loop(data)
-          this.historyList = arr
         })
-      },
-
-      // 点击历史商汇
-      histiryClick(item) {
-        console.log(item)
       }
     }
   }
@@ -180,78 +118,78 @@
 .user-container {
   .ct-container {
     display: flex;
-    .ct-list {
-      flex: 1;
-    }
-    .main-box {
-      padding: 10px;
-      border: 1px solid #e3e3e3;
-      display: flex;
-      margin-top: 5px;
-      .ct-logo {
-        flex-basis: 150px;
-        height: 180px;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-      .ct-content {
-        padding-left: 30px;
-        flex-basis: 215px;
-        .ct-title {
-          font-size: 16px;
-          height: 30px;
-          line-height: 30px;
-          font-weight: bold;
-        }
-        .ct-text {
-          color: #666;
-          font-size: 14px;
-          line-height: 40px;
-        }
-        .ct-status {
-          line-height: 28px;
-        }
-        .ct-credit {
-          line-height: 28px;
-        }
-        .el-rate {
-          display: inline-block;
-          line-height: 12px;
-          margin-left: 5px;
-        }
-        .m-tit {
-          margin-left: 5px;
-        }
-        .normal {
-          color: #009943;
-          margin-left: 5px;
-          font-size: 14px;
-        }
-        .urgent {
-          color: #e61717;
-        }
-        .lose {
-          color: #999;
-        }
-        .ct-price {
-          color: #ff6900;
-          font-size: 14px;
-          line-height: 20px;
-        }
-      }
-      .ct-detail {
-        padding-left: 30px;
-        flex: 1;
-        .de-button {
-          margin-left: 70px;
-        }
-        .de-text {
-          margin-top: 30px;
-        }
-      }
-    }
+    // .ct-list {
+    //   flex: 1;
+    // }
+    // .main-box {
+    //   padding: 10px;
+    //   border: 1px solid #e3e3e3;
+    //   display: flex;
+    //   margin-top: 5px;
+    //   .ct-logo {
+    //     flex-basis: 150px;
+    //     height: 180px;
+    //     img {
+    //       width: 100%;
+    //       height: 100%;
+    //     }
+    //   }
+    //   .ct-content {
+    //     padding-left: 30px;
+    //     flex-basis: 215px;
+    //     .ct-title {
+    //       font-size: 16px;
+    //       height: 30px;
+    //       line-height: 30px;
+    //       font-weight: bold;
+    //     }
+    //     .ct-text {
+    //       color: #666;
+    //       font-size: 14px;
+    //       line-height: 40px;
+    //     }
+    //     .ct-status {
+    //       line-height: 28px;
+    //     }
+    //     .ct-credit {
+    //       line-height: 28px;
+    //     }
+    //     .el-rate {
+    //       display: inline-block;
+    //       line-height: 12px;
+    //       margin-left: 5px;
+    //     }
+    //     .m-tit {
+    //       margin-left: 5px;
+    //     }
+    //     .normal {
+    //       color: #009943;
+    //       margin-left: 5px;
+    //       font-size: 14px;
+    //     }
+    //     .urgent {
+    //       color: #e61717;
+    //     }
+    //     .lose {
+    //       color: #999;
+    //     }
+    //     .ct-price {
+    //       color: #ff6900;
+    //       font-size: 14px;
+    //       line-height: 20px;
+    //     }
+    //   }
+    //   .ct-detail {
+    //     padding-left: 30px;
+    //     flex: 1;
+    //     .de-button {
+    //       margin-left: 70px;
+    //     }
+    //     .de-text {
+    //       margin-top: 30px;
+    //     }
+    //   }
+    // }
     .concat-container {
       flex-basis: 400px;
       margin-left: 10px;
@@ -317,25 +255,6 @@
       }
       .ad-img {
         width: 100%;
-      }
-    }
-  }
-
-  .history-container {
-    margin-top: 15px;
-    .hi-title {
-      height: 50px;
-      line-height: 50px;
-      font-size: 16px;
-      padding-left: 20px;
-    }
-    .ca-list {
-      display: flex;
-      padding-left: 15px;
-      padding-right: 15px;
-      .ca-item {
-        width: 225px;
-        margin: 0 8px;
       }
     }
   }

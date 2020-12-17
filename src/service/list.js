@@ -22,3 +22,11 @@ export const getAdList = (data) => {
     data
   })
 }
+// 获取动态数据
+export const getDynamicList = (data) => {
+  return request({
+    url: '/get/main/dynamic/list',
+    method: 'get',
+    data
+  })
+}

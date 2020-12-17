@@ -90,7 +90,10 @@ export default [
       for (let i = 0; i < 5; i++) {
         const obj = {
           id: Random.increment(),
-          fileUrl: Random.image('320x220', Random.color(), '广告')
+          fileUrl: Random.image('320x220', Random.color(), '广告'),
+          time: Random.time('HH:mm'),
+          name: Random.chineseName(),
+          message: Random.title()
         }
         data.push(obj)
       }
@@ -132,6 +135,41 @@ export default [
           fileUrl: Random.image('190x205', Random.color(), 'user')
         }
         data.push(obj)
+      }
+      return {
+        code: 200,
+        message: 'success',
+        data
+      }
+    }
+  },
+  {
+    url: '/get/main/dynamic/list',
+    type: 'get',
+    response: () => {
+      let data = []
+      for (let i = 0; i < 7; i++) {
+        const obj = {
+          id: Random.increment(),
+          star: Random.natural(0, 20),
+          comment: Random.word(3, 5),
+          text: Random.title(5, 10),
+          time: Random.datetime(),
+          fileList: loop()
+        }
+        data.push(obj)
+      }
+
+      function loop() {
+        let arr = []
+        for (let i = 0; i < Random.natural(1, 9); i++) {
+          const element = {
+            id: Random.increment(),
+            fileUrl: Random.image('150x180', Random.color(), 'user')
+          }
+          arr.push(element)
+        }
+        return arr
       }
       return {
         code: 200,

@@ -46,6 +46,21 @@ const constantRoter = [{
       path: 'resume',
       component: () => import('@/views/user/resume'),
       name: 'Resume'
+    },
+    {
+      path: 'issue',
+      component: () => import('@/views/user/issue'),
+      name: 'Issue'
+    },
+    {
+      path: 'dynamic',
+      component: () => import('@/views/user/dynamic'),
+      name: 'Dynamic'
+    },
+    {
+      path: 'friend',
+      component: () => import('@/views/user/friend'),
+      name: 'Friend'
     }
   ]
 }

@@ -235,5 +235,32 @@ export default {
     }
   },
 
+  // 验证上传的文件类型，是否为pdf
+  isPdfType (file) {
+    const fileType = file.type
+    if (fileType.lastIndexOf('/pdf') > 0) {
+      return true
+    }
+    return false
+  },
+  
+  // 验证上传的文件类型，是否为png/jpeg/gif等
+  isPictureType (file) {
+    const fileType = file.type
+    if (fileType.lastIndexOf('/jpeg') > 0 || fileType.lastIndexOf('/png') > 0 || fileType.lastIndexOf('/x-icon') > 0 || fileType.lastIndexOf('/gif') >= 0) {
+      return true
+    }
+    return false
+  },
+
+  // 验证上传的文件大小,小于4m
+  isLimitFile (file, size = 4) {
+    const isLtM = file.size / 1024 / 1024 < size
+    if (isLtM) {
+      return true
+    }
+    return false
+  },
+
 
 }

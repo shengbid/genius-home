@@ -36,6 +36,9 @@ a {
   text-decoration: none;
   color: inherit;
 }
+i {
+  font-style: normal;
+}
 img {
   width: 100%;
   height: 100%;
