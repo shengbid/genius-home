@@ -41,7 +41,10 @@
       return {
         count: 8,
         mianCompanyList: [],
-        adImg: ''
+        adImg: '',
+        business: {
+          title: '发布商汇'
+        }
       }
     },
     created() {

@@ -30,3 +30,11 @@ export const getDynamicList = (data) => {
     data
   })
 }
+// 获取聊天数据
+export const getMessageList = (data) => {
+  return request({
+    url: '/get/main/message/list',
+    method: 'get',
+    data
+  })
+}

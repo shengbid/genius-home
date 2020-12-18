@@ -92,11 +92,12 @@ export default [
           id: Random.increment(),
           fileUrl: Random.image('320x220', Random.color(), '广告'),
           time: Random.time('HH:mm'),
-          name: Random.chineseName(),
+          name: Random.cname(),
           message: Random.title()
         }
         data.push(obj)
       }
+
       return {
         code: 200,
         message: 'success',
@@ -177,5 +178,39 @@ export default [
         data
       }
     }
-  }
+  },
+  {
+    url: '/get/main/message/list',
+    type: 'get',
+    response: () => {
+      let data = []
+      for (let i = 0; i < Random.natural(3, 15); i++) {
+        const element = {
+          id: Random.increment(),
+          user: loop2(1),
+          fuser: loop2(2)
+        }
+        data.push(element)
+      }
+
+      function loop2(type) {
+        let arr = []
+        for (let i = 0; i < Random.natural(0, 5); i++) {
+          const element = {
+            id: Random.increment(),
+            type,
+            msg: Random.sentence()
+          }
+          arr.push(element)
+        }
+        return arr
+      }
+      return {
+        code: 200,
+        message: 'success',
+        avactor: Random.image('55x55', Random.color(), 'user'),
+        data
+      }
+    }
+  },
 ]
