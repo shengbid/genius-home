@@ -213,4 +213,33 @@ export default [
       }
     }
   },
+  {
+    url: '/get/main/issue/info',
+    type: 'get',
+    response: (config) => {
+      const id = config.body ? (JSON.parse(config.body)).id : 1
+      let data = {
+        id: id,
+        bussinessName: Random.title(),
+        title: Random.title(),
+        industry: Random.word(),
+        quote: Random.natural(500, 10000),
+        website: Random.url(),
+        email: Random.email(),
+        phone: '135698969666',
+        wechart: '586666',
+        qq: '56666',
+        otherConcat: '2222',
+        LogoImg: Random.image('148x148', Random.color()),
+        wechartImg: Random.image('148x148', Random.color()),
+        qqImg: Random.image('148x148', Random.color()),
+        desc: Random.paragraph(1, 3)
+      }
+      return {
+        code: 200,
+        message: 'success',
+        data
+      }
+    }
+  },
 ]

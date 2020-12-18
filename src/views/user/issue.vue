@@ -13,8 +13,8 @@
         </template>
         <template v-slot:detail="scope">
           <div class="oprate">
-            <el-button type="primary" icon="el-icon-edit" circle></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle></el-button>
+            <el-button type="primary" @click="editIssue" icon="el-icon-edit" circle></el-button>
+            <el-button type="danger" @click="deleteIssue" icon="el-icon-delete" circle></el-button>
           </div>
           <div class="de-text">
             <span class="de-title">描述:</span>
@@ -26,25 +26,33 @@
       <!-- 广告 -->
       <AdContainer :adImg="adImg"></AdContainer>
     </div>
+    <!-- 发布新商汇 -->
+    <BusinessDialog 
+      :title="title" 
+      :dialogVisible="dialogVisible"
+      :editId="editId"
+      @cancel="handleCancel"
+      @submit="handleSubmit" />
   </div>
 </template>
 
 <script>
   import { getMainCompanyList } from '@/service/list'
   import Require from '@/components/BussinessReqiure'
-    import AdContainer from '@/components/AdContainer'
+  import AdContainer from '@/components/AdContainer'
+  import BusinessDialog from '@/components/BusinessDialog'
 
   export default {
     name: 'Issue',
-    components: {Require, AdContainer},
+    components: {Require, AdContainer, BusinessDialog},
     data() {
       return {
         count: 8,
         mianCompanyList: [],
         adImg: '',
-        business: {
-          title: '发布商汇'
-        }
+        dialogVisible: false,
+        title: '发布商汇',
+        editId: ''
       }
     },
     created() {
@@ -60,7 +68,34 @@
       },
 
       // 发布新商汇需求
-      issueNew() {}
+      issueNew() {
+        this.title = '发布商汇'
+        this.dialogVisible = true
+      },
+
+      // 编辑商汇
+      editIssue() {
+        this.title = '修改商汇'
+        this.editId = 12
+        this.dialogVisible = true
+      },
+
+      // 删除商汇
+      deleteIssue() {
+
+      },
+
+      // 提交商汇
+      handleSubmit(form) {
+        console.log(2, form)
+        this.dialogVisible = false
+        this.editId = null
+      },
+      // 取消
+      handleCancel() {
+        this.dialogVisible = false
+        this.editId = null
+      }
     }
   }
 </script>
