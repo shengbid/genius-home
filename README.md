@@ -1,7 +1,7 @@
 
 ## clone
 ```
-https://gitee.com/genius-offical/genius-home.git
+git clone https://gitee.com/genius-offical/genius-home.git
 ```
 
 ## Project setup
