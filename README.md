@@ -1,7 +1,7 @@
 
 ## clone
 ```
-git clone https://github.com/shengbid/vue-demo.git
+https://gitee.com/genius-offical/genius-home.git
 ```
 
 ## Project setup
