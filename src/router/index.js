@@ -61,7 +61,43 @@ const constantRoter = [{
       path: 'friend',
       component: () => import('@/views/user/friend'),
       name: 'Friend'
+    },
+    {
+      path: 'message',
+      component: () => import('@/views/business/message'),
+      name: 'Message1'
     }
+  ]
+}, {
+  path: '/business',
+  component: Layout,
+  redirect: '/business/cultrue',
+  children: [
+    {
+      path: 'home',
+      component: () => import('@/views/user/user'),
+      name: 'Business'
+    },
+    {
+      path: 'cultrue',
+      component: () => import('@/views/business/cultrue'),
+      name: 'Cultrue'
+    },
+    {
+      path: 'partner1',
+      component: () => import('@/views/business/partner'),
+      name: 'Partner1'
+    },
+    {
+      path: 'partner',
+      component: () => import('@/views/business/partner'),
+      name: 'Partner'
+    },
+    {
+      path: 'message',
+      component: () => import('@/views/business/message'),
+      name: 'Message'
+    },
   ]
 }
 ]

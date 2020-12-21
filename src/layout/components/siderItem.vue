@@ -3,6 +3,7 @@
     <template v-for="item in menus">
       <router-link
         :key="item.path"
+        v-show="!item.hidden"
         v-if="!item.children"
         :to="{name: item.name}"
       >

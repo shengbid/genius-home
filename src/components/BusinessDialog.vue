@@ -3,6 +3,7 @@
     <el-dialog
       :title="title"
       :visible.sync="dialogVisible"
+      :before-close="handleCancel"
       width="800px">
       <el-form 
         :model="ruleForm" 
@@ -223,6 +224,7 @@ export default {
     // 取消商汇
     handleCancel() {
       this.$emit('submit', this.ruleForm)
+      this.$refs['ruleForm'] && this.$refs['ruleForm'].resetFields()
       this.resetForm()
     },
 

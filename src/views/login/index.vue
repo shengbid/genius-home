@@ -308,9 +308,10 @@
               console.log(h)
               this.$refs.dialogopen && this.$refs.dialogopen.reset(h)
             } else {
-              sessionStorage.setItem('login', 'login')
+              const login = JSON.stringify({ type: this.register.buyer ? 1 : 2 })
+              sessionStorage.setItem('login', login)
               this.$router.push({
-                name: 'User',
+                name: this.register.buyer ? 'User' : 'Business',
                 params: {
                   type: this.register.buyer ? 1 : 2
                 }

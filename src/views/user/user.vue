@@ -6,9 +6,9 @@
         <Require :mianCompanyList="mianCompanyList">
           <template slot="detail" slot-scope="scope">
             <div class="oprate">
-              <el-button type="primary">获取联系方式</el-button>
-              <el-button type="info">踢出商汇</el-button>
-              <el-button type="text" class="de-button">详情</el-button>
+              <el-button type="primary" @click="getConcatType">获取联系方式</el-button>
+              <el-button type="info" @click="deleteConcat">踢出商汇</el-button>
+              <el-button type="text" @click="toDetail" class="de-button">详情</el-button>
             </div>
             <div class="de-text">
               <span class="de-title">业务简介:</span>
@@ -41,13 +41,20 @@
                 <el-badge :hidden="item.count < 1" :max="99" :value="item.count" class="item">
                   <div class="co-img">
                     <img :src="item.fileUrl" alt="">
-                    <div class="add">
+                    <!-- <div class="add">
                       <span class="el-icon-plus"></span>
-                    </div>
+                    </div> -->
                   </div>
                 </el-badge>
                 <div class="co-detail">
-                  <el-button type="text" @click="replaceData">详情信息>></el-button>
+                  <el-button 
+                    type="primary" 
+                    style="margin-right:50px;" 
+                    icon="el-icon-plus" 
+                    size="mini"
+                    @click="addConcat"
+                    circle></el-button>
+                  <el-button type="text" @click="handleDetail(item.id)">详情信息>></el-button>
                 </div>
               </li>
             </ul>
@@ -65,6 +72,26 @@
       <!-- 历史商汇 -->
       <History />
     </section>
+    <!-- 联系人信息 -->
+    <el-dialog
+      title="个人信息"
+      :visible.sync="conact.visible"
+      width="40%">
+      <ul class="concat-detail">
+        <li class="title">
+          {{ conact.info.name }}
+        </li>
+        <li class="co-item">
+          <span class="tit">性别:</span>{{ conact.info.sex }}
+        </li>
+        <li class="co-item">
+          <span class="tit">年龄:</span>{{ conact.info.age }}
+        </li>
+        <li class="co-item">
+          <span class="tit">个人签名:</span>{{ conact.info.remark }}
+        </li>
+      </ul>
+    </el-dialog>
   </div>
 </template>
 
@@ -83,7 +110,16 @@
         count: 7,
         loginStatus: '1',
         concatList: [],
-        adImg: ''
+        adImg: '',
+        conact: {
+          visible: false,
+          info: {
+            name: '',
+            sex: '',
+            age: '',
+            remark: ''
+          }
+        }
       }
     },
     created() {
@@ -98,8 +134,63 @@
         })
       },
 
-      // 更换联系人
+      // 切换联系人列表
       replaceData() {},
+
+      // 点击查看
+      handleDetail() {
+        this.conact.visible = true
+        this.conact.info = {
+          name: '张三',
+          sex: '男',
+          age: '34',
+          remark: '个性签名'
+        }
+      },
+
+      // 添加联系人
+      addConcat() {
+        this.$confirm('添加到我的好友', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '添加成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });          
+        });
+      },
+
+      // 踢出商汇
+      deleteConcat() {
+        this.$confirm('确认踢出商汇?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '已踢出我的商汇!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });          
+        });
+      },
+
+      // 获取联系方式
+      getConcatType() {},
+
+      // 获取详情
+      toDetail() {},
 
       // 获取联系人
       getConcatData() {
@@ -118,78 +209,6 @@
 .user-container {
   .ct-container {
     display: flex;
-    // .ct-list {
-    //   flex: 1;
-    // }
-    // .main-box {
-    //   padding: 10px;
-    //   border: 1px solid #e3e3e3;
-    //   display: flex;
-    //   margin-top: 5px;
-    //   .ct-logo {
-    //     flex-basis: 150px;
-    //     height: 180px;
-    //     img {
-    //       width: 100%;
-    //       height: 100%;
-    //     }
-    //   }
-    //   .ct-content {
-    //     padding-left: 30px;
-    //     flex-basis: 215px;
-    //     .ct-title {
-    //       font-size: 16px;
-    //       height: 30px;
-    //       line-height: 30px;
-    //       font-weight: bold;
-    //     }
-    //     .ct-text {
-    //       color: #666;
-    //       font-size: 14px;
-    //       line-height: 40px;
-    //     }
-    //     .ct-status {
-    //       line-height: 28px;
-    //     }
-    //     .ct-credit {
-    //       line-height: 28px;
-    //     }
-    //     .el-rate {
-    //       display: inline-block;
-    //       line-height: 12px;
-    //       margin-left: 5px;
-    //     }
-    //     .m-tit {
-    //       margin-left: 5px;
-    //     }
-    //     .normal {
-    //       color: #009943;
-    //       margin-left: 5px;
-    //       font-size: 14px;
-    //     }
-    //     .urgent {
-    //       color: #e61717;
-    //     }
-    //     .lose {
-    //       color: #999;
-    //     }
-    //     .ct-price {
-    //       color: #ff6900;
-    //       font-size: 14px;
-    //       line-height: 20px;
-    //     }
-    //   }
-    //   .ct-detail {
-    //     padding-left: 30px;
-    //     flex: 1;
-    //     .de-button {
-    //       margin-left: 70px;
-    //     }
-    //     .de-text {
-    //       margin-top: 30px;
-    //     }
-    //   }
-    // }
     .concat-container {
       flex-basis: 400px;
       margin-left: 10px;
@@ -242,7 +261,8 @@
           }
         }
         .co-detail {
-          text-align: right;
+          // text-align: right;
+          padding: 5px 0;
         }
       }
     }
@@ -255,6 +275,22 @@
       }
       .ad-img {
         width: 100%;
+      }
+    }
+  }
+
+  .concat-detail {
+    padding-left: 20px;
+    .title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .co-item {
+      padding: 10px 0;
+      .tit {
+        font-size: 14px;
+        margin-right: 5px;
       }
     }
   }
