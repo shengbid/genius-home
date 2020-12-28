@@ -3,7 +3,7 @@
     <div class="login-content bg-white">
       <header class="header-container com-container">
         <div class="he-content clearfix">
-          <div class="he-logo left-f">
+          <div class="he-logo left-f" @click="$router.push('/home')">
             <img src="@assets/imgs/logo/logo.png" alt="">
           </div>
           <span class="line left-f">/</span>
@@ -212,8 +212,8 @@
     data() {
       return {
         ruleForm: {
-          account: '',
-          password: ''
+          account: 'admin',
+          password: '123456'
         },
         forgetPass: {
           visible: false,
@@ -420,6 +420,7 @@
     .he-logo {
       width: 280px;
       height: 60px;
+      cursor: pointer;
     }
     .line {
       font-size: 30px;

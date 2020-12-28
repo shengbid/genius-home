@@ -6,7 +6,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import filter from '@/mixin/filter'
 // import store from './vuex/store'
 import router from './router'
-// import './permisson'
+import './permisson'
 import '../mock'
 
 Vue.config.productionTip = false

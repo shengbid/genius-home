@@ -21,9 +21,11 @@
             </el-form-item>
             <el-form-item label="行业" prop="industry">
               <el-input v-model="ruleForm.industry" maxlength="50"></el-input>
+              <el-checkbox v-model="ruleForm.isHurry">是否加急</el-checkbox>
             </el-form-item>
             <el-form-item label="报价" prop="quote">
               <el-input v-model="ruleForm.quote" maxlength="50"></el-input>
+              <el-checkbox v-model="ruleForm.isPrice">是否可议价</el-checkbox>
             </el-form-item>
             <el-form-item label="宣传页地址" prop="website">
               <el-input v-model="ruleForm.website" maxlength="150"></el-input>
@@ -154,7 +156,9 @@ export default {
         LogoImg: '',
         wechartImg: '',
         qqImg: '',
-        desc: ''
+        desc: '',
+        isHurry: false,
+        isPrice: false
       },
       rules: {
         bussinessName: [
@@ -310,7 +314,9 @@ export default {
         LogoImg: '',
         wechartImg: '',
         qqImg: '',
-        desc: ''
+        desc: '',
+        isHurry: false,
+        isPrice: false
       }
     }
   }
