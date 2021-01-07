@@ -38,3 +38,11 @@ export const getMessageList = (data) => {
     data
   })
 }
+// 获取留言数据
+export const getNoteList = (data) => {
+  return request({
+    url: '/get/main/note/list',
+    method: 'get',
+    data
+  })
+}

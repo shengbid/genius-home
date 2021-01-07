@@ -147,55 +147,23 @@
       </el-main>
     </el-container>
     <!-- 商汇详情 -->
-    <el-dialog
-      title="商汇详情"
-      :visible.sync="detailInfo.visible"
-      @before-colse="closeDetail"
-      width="800px">
-      <div class="detail-box">
-        <ul class="concat-detail">
-          <li class="logo">
-            <img :src="detailInfo.detailForm.logo" alt="">
-          </li>
-          <li class="name">
-            {{ detailInfo.detailForm.name }}
-          </li>
-          <li class="co-item">
-            {{ detailInfo.detailForm.text }}
-          </li>
-          <li class="co-item">
-            <span class="tit">报价:</span>{{ detailInfo.detailForm.price }}
-          </li>
-          <li class="remark">
-            <span class="tit">业务备注:</span>
-            <div class="mark">{{ detailInfo.detailForm.detail }}</div>
-          </li>
-        </ul>
-        <ul class="file-box clearfix">
-          <li class="title">附件</li>
-          <li
-            class="file"
-            v-for="item in detailInfo.fileList"
-            :key="item.id"
-          >
-            <img :src="item.fileUrl" alt="">
-          </li>
-        </ul>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="forget" @click="pushBussiness">加入商汇</el-button>
-        <el-button type="primary" @click="tooffice">进入官网</el-button>
-      </span>
-    </el-dialog>
+    <DetailDialog 
+      :visible="detailInfo.visible"
+      :detailForm="detailInfo.detailForm"
+      :fileList="detailInfo.fileList"
+      @cancel="handleClose"
+    ></DetailDialog>
   </div>
 </template>
 
 <script>
   import { getClassify, getMainCompanyList, getAdList } from '@/service/list'
+  import DetailDialog from '@/components/DetailDialog'
   import { isBuyer } from '@/utils/utils'
 
   export default {
     name: 'Home',
+    components: { DetailDialog },
     data(){
       return {
         search: '',
@@ -268,28 +236,10 @@
         this.detailInfo.detailForm = item
       },
 
-      // 拉入商汇
-      pushBussiness(item) {
-        let info = item ? item : this.detailInfo.detailForm
-        console.log(info)
-        this.$confirm('已将需求拉入商汇.请到【Mine商会圈】获取对方联系方式', '提示', {
-          confirmButtonText: '进入My商汇圈查看',
-          type: 'success',
-          showCancelButton: false
-        }).then(() => {
-          this.$router.push({
-            name: isBuyer() ? 'User' : 'Business',
-            params: isBuyer() ? 1 : 2
-          })
-        })
-      },
-
-      // 进入官网
-      tooffice() {},
-
       // 关闭弹框重置数据
-      closeDetail() {
+      handleClose() {
         this.resetForm()
+        this.detailInfo.visible = false
       },
 
       // 重置商汇详情数据
@@ -540,48 +490,5 @@
       }
     }
 
-    .detail-box {
-      display: flex;
-      .concat-detail {
-        flex: 1;
-        .logo {
-          width: 120px;
-          height: 100px;
-        }
-        .name {
-          font-size: 14px;
-          font-weight: bold;
-          padding: 10px 0 20px 0;
-        }
-        .co-item {
-          color: #ff6900;
-          font-size: 14px;
-          padding: 6px 0;
-        }
-        .remark {
-          padding: 10px 0;
-          .tit {
-            line-height: 30px;
-          }
-        }
-        .mark {
-          border: 1px solid #e3e3e3;
-          line-height: 28px;
-        }
-      }
-      .file-box {
-        flex: 1;
-        padding-left: 15px;
-        .title {
-          line-height: 30px;
-          font-size: 14px;
-        }
-        .file {
-          width: 110px;
-          padding: 5px;
-          float: left;
-        }
-      }
-    }
   }
 </style>

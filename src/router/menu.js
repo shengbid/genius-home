@@ -63,35 +63,35 @@ const menus = [
     component: 'user/message',
     name: 'Message1',
     hidden: isHidden,
-    meta: { title: '我的留言', icon: 'el-icon-tickets' }
+    meta: { title: '我的留言', icon: 'el-icon-chat-line-round' }
   },
   {
     path: '/business/cultrue',
     component: '/business/cultrue',
     name: 'Cultrue',
     hidden: !isHidden,
-    meta: { title: '企业文化', icon: 'el-icon-tickets' }
+    meta: { title: '企业文化', icon: 'el-icon-s-flag' }
   },
   {
     path: '/business/partner1',
     component: '/business/partner',
     name: 'Partner1',
     hidden: !isHidden,
-    meta: { title: '合作牛人', icon: 'el-icon-tickets' }
+    meta: { title: '合作牛人', icon: 'el-icon-user' }
   },
   {
     path: '/business/partner',
     component: '/business/partner',
     name: 'Partner',
     hidden: !isHidden,
-    meta: { title: '商业伙伴', icon: 'el-icon-tickets' }
+    meta: { title: '商业伙伴', icon: 'el-icon-connection' }
   },
   {
     path: '/business/message',
     component: '/business/message',
     name: 'Message',
     hidden: !isHidden,
-    meta: { title: '商业留言', icon: 'el-icon-tickets' }
+    meta: { title: '商业留言', icon: 'el-icon-chat-line-square' }
   }
 ]
 

@@ -242,4 +242,38 @@ export default [
       }
     }
   },
+  {
+    url: '/get/main/note/list',
+    type: 'get',
+    response: () => {
+      let data = []
+      for (let i = 0; i < 6; i++) {
+        const obj = {
+          id: Random.increment(),
+          name: Random.cname(),
+          logo: Random.image('100x90', Random.color(), 'user'),
+          list: loop()
+        }
+        data.push(obj)
+      }
+      function loop() {
+        let arr = []
+        for (let i = 0; i < Random.natural(1, 5); i++) {
+          const element = {
+            id: Random.increment(),
+            time: Random.datetime(),
+            msg: Random.sentence()
+          }
+          arr.push(element)
+        }
+        return arr
+
+      }
+      return {
+        code: 200,
+        message: 'success',
+        data
+      }
+    }
+  },
 ]

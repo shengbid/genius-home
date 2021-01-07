@@ -8,7 +8,7 @@
             <div class="oprate">
               <el-button type="primary" @click="getConcatType">获取联系方式</el-button>
               <el-button type="info" @click="deleteConcat">踢出商汇</el-button>
-              <el-button type="text" @click="toDetail" class="de-button">详情</el-button>
+              <el-button type="text" @click="toDetail(scope.item)" class="de-button">详情</el-button>
             </div>
             <div class="de-text">
               <span class="de-title">业务简介:</span>
@@ -92,6 +92,21 @@
         </li>
       </ul>
     </el-dialog>
+    <!-- 商汇详情 -->
+    <DetailDialog 
+      :visible="detailInfo.visible"
+      :detailForm="detailInfo.detailForm"
+      :fileList="detailInfo.fileList"
+      :isPush="false"
+      @cancel="handleClose"
+    ></DetailDialog>
+
+    <!-- 获取联系人方式弹框 -->
+    <LinkDialog
+      :visible="linklInfo.visible"
+      :detailForm="linklInfo.detailForm"
+      @cancelLink="closeLink"
+    />
   </div>
 </template>
 
@@ -100,10 +115,12 @@
   import { getConcatList } from '@/service/user'
   import History from '@/components/HistoryBussiness'
   import Require from '@/components/BussinessReqiure'
+  import DetailDialog from '@/components/DetailDialog'
+  import LinkDialog from '@/components/ConcatinfoDialog'
 
   export default {
     name: 'User',
-    components: {History, Require},
+    components: {History, Require, DetailDialog, LinkDialog},
     data() {
       return {
         mianCompanyList: [],
@@ -118,6 +135,31 @@
             sex: '',
             age: '',
             remark: ''
+          }
+        },
+        detailInfo: {
+          visible: false,
+          detailForm: {
+            logo: '',
+            name: '',
+            text: '',
+            price: '',
+            detail: ''
+          },
+          fileList: []
+        },
+        linklInfo: {
+          visible: false,
+          detailForm: {
+            logo: '',
+            name: '',
+            tel: '',
+            phone: '',
+            wechart: '',
+            qq: '',
+            email: '',
+            wxImg: '',
+            qqImg: ''
           }
         }
       }
@@ -187,10 +229,63 @@
       },
 
       // 获取联系方式
-      getConcatType() {},
+      getConcatType() {
+        this.linklInfo.visible = true
+        this.linklInfo.detailForm = {
+          logo: 'http://dummyimage.com/190x205/f28179&text=logo',
+          name: '信息科技有限公司',
+          tel: '032-5966633',
+          phone: '18055669636',
+          wechart: '18055669636',
+          qq: '258663555',
+          email: '25566666@163.com',
+          wxImg: 'http://dummyimage.com/190x205/f28179&text=user',
+          qqImg: 'http://dummyimage.com/190x205/f28179&text=user'
+        }
+      },
 
       // 获取详情
-      toDetail() {},
+      toDetail(item) {
+        console.log(item)
+        this.detailInfo.visible = true
+        this.detailInfo.detailForm = item
+      },
+
+      // 关闭弹框重置数据
+      handleClose() {
+        this.resetForm()
+        this.detailInfo.visible = false
+      },
+
+      // 关闭联系信息弹框
+      closeLink() {
+        this.resetForm(1)
+        this.linklInfo.visible = false
+      },
+      // 重置商汇详情数据
+      resetForm(type) {
+        if (type) {
+          this.linklInfo.detailForm = {
+            logo: '',
+            name: '',
+            tel: '',
+            phone: '',
+            wechart: '',
+            qq: '',
+            email: '',
+            wxImg: '',
+            qqImg: ''
+          }
+        } else {
+          this.detailInfo.detailForm = {
+            logo: '',
+            name: '',
+            text: '',
+            price: '',
+            detail: ''
+          }
+        }
+      },
 
       // 获取联系人
       getConcatData() {
@@ -199,6 +294,7 @@
           this.concatList = JSON.parse(JSON.stringify(data))
           this.concatList = this.concatList.splice(0, 6)
           this.adImg = this.concatList[0].fileUrl
+          this.detailInfo.fileList = this.concatList
         })
       }
     }
@@ -294,5 +390,6 @@
       }
     }
   }
+
 }
 </style>
