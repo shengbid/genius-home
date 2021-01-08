@@ -4,6 +4,7 @@
       title="联系人信息"
       :visible.sync="visible"
       :before-close="handleCancel"
+      :close-on-click-modal="false"
       width="800px">
       <div class="detail-box">
         <div class="tip">

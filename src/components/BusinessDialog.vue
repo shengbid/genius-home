@@ -4,6 +4,7 @@
       :title="title"
       :visible.sync="dialogVisible"
       :before-close="handleCancel"
+      :close-on-click-modal="false"
       width="800px">
       <el-form 
         :model="ruleForm" 

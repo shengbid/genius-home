@@ -45,6 +45,7 @@
     <el-dialog
       title="编辑链接地址"
       :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
       width="50%">
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="110px">
         <el-form-item label="按钮名称" prop="name">

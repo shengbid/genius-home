@@ -76,6 +76,7 @@
     <el-dialog
       title="个人信息"
       :visible.sync="conact.visible"
+      :close-on-click-modal="false"
       width="40%">
       <ul class="concat-detail">
         <li class="title">

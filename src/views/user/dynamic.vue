@@ -59,12 +59,62 @@
       <!-- 广告 -->
       <AdContainer :adImg="adImg"></AdContainer>
     </div>
+
+    <!-- 发布动态 -->
+    <el-dialog
+      title="发布动态"
+      :visible.sync="dynamicInfo.visible"
+      :before-close="handleCancel"
+      :close-on-click-modal="false"
+      width="800px">
+      <el-form 
+        :model="dynamicInfo.ruleForm" 
+        :rules="dynamicInfo.rules" 
+        ref="ruleForm" 
+        label-width="110px" 
+        class="demo-ruleForm">
+        <el-form-item label="发布内容" prop="desc">
+          <el-input 
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 5}"
+            maxlength="500"
+            show-word-limit
+            v-model="dynamicInfo.ruleForm.desc"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="图片" prop="fileUrl">
+          <el-upload
+            list-type="picture-card"
+            action="/upload/file"
+            :limit="9"
+            multiple
+            accept="image/png, image/jpeg"
+            :file-list="dynamicInfo.fileList"
+            :on-success="handleSuccess"
+            :on-remove="handleRemove"
+            :on-preview="handlePreview"
+            :before-upload="beforeUpload">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="handleCancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 图片预览 -->
+    <el-dialog :visible.sync="imgVisible">
+      <img width="100%" :src="imageUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import { getDynamicList } from '@/service/list'
   import AdContainer from '@/components/AdContainer'
+  import commom from '@utils/common'
 
   export default {
     name: 'Dynamic',
@@ -73,7 +123,19 @@
       return {
         dynamicList: [],
         count: 7,
-        adImg: ''
+        adImg: '',
+        imgVisible: false,
+        imageUrl: '',
+        dynamicInfo: {
+          visible: false,
+          ruleForm: {
+            desc: ''
+          },
+          fileList: [],
+          rules: {
+            desc: [{ required: true, message: '请填写发布内容', trigger: 'blur' }]
+          }
+        }
       }
     },
     created() {
@@ -89,7 +151,72 @@
       },
 
       // 发布新动态
-      issueNew() {}
+      issueNew() {
+        this.dynamicInfo.visible = true
+      },
+
+      beforeUpload(file) {
+        const type = commom.isPictureType(file)
+        const limit = commom.isLimitFile(file)
+        if (!type) {
+          this.$message({
+            message: '必须上传图片类型',
+            type: 'warning'
+          })
+        }
+        if (!limit) {
+          this.$message({
+            message: '图片大小不能超过4M',
+            type: 'warning'
+          })
+        }
+
+        return type && limit
+      },
+
+      handlePreview(file) {
+        console.log(file)
+        if (file.response && file.response.data) {
+          this.imageUrl = file.response.data.file
+          this.imgVisible = true
+        }
+      },
+
+      handleSuccess(res, file, fileList) {
+        console.log(res)
+        this.dynamicInfo.fileList = fileList
+      },
+
+      handleRemove(file, fileList) {
+        this.dynamicInfo.fileList = fileList
+      },
+
+      // 发布动态
+      submitForm() {
+        this.$refs['ruleForm'].validate((valid) => {
+          if (valid) {
+
+            console.log(1, this.dynamicInfo)
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      },
+
+      // 取消
+      handleCancel() {
+        this.dynamicInfo.visible = false
+        this.$refs['ruleForm'] && this.$refs['ruleForm'].resetFields()
+        this.resetForm()
+      },
+
+      resetForm() {
+        this.dynamicInfo.ruleForm = {
+          desc: ''
+        }
+        this.dynamicInfo.fileList = []
+      }
     }
   }
 </script>
