@@ -29,7 +29,16 @@ module.exports = {
 
   devServer: {
     port: 8083,
-    open: true
+    open: true,
+    proxy: {
+      "/api": {
+        target: "http://yonghu.sd.jt3289.com:7001",
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '/'          
+        }
+      }
+    }
   },
   // webpack配置 - 简单配置方式
   configureWebpack: {

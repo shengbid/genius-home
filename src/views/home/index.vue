@@ -31,9 +31,9 @@
           {{ item }}
         </li>
         <li class="co-login right-f">
-          <span @click="login(0)">登录</span>
+          <span @click="login(1)">登录</span>
           <div class="line"></div>
-          <span @click="login(1)">注册</span>
+          <span @click="login(2)">注册</span>
         </li>
       </ul>
     </div>
@@ -97,6 +97,15 @@
               </div>
             </li>
           </ul>
+          <div class="page">
+            <el-pagination
+              layout="prev, pager, next"
+              :current-page="pageNation.currentPage"
+              :hide-on-single-page="pageNation.total<10"
+              :current-change="changeCurrent"
+              :total="pageNation.total">
+            </el-pagination>
+          </div>
         </div>
         <div class="ad-container">
           <div class="board">
@@ -160,6 +169,7 @@
   import { getClassify, getMainCompanyList, getAdList } from '@/service/list'
   import DetailDialog from '@/components/DetailDialog'
   import { isBuyer } from '@/utils/utils'
+  import common from '@/utils/common'
 
   export default {
     name: 'Home',
@@ -190,6 +200,11 @@
             detail: ''
           },
           fileList: []
+        },
+        pageNation: {
+          currentPage: 1,
+          total: 5,
+          pageSize: 10
         }
       }
     },
@@ -207,11 +222,23 @@
       },
       // 获取商圈信息
       getMainCompanyData() {
-        getMainCompanyList({count: this.count}).then(res => {
+        const data = {
+          pageNo: this.pageNation.currentPage,
+          pageSize: this.pageNation.pageSize,
+          id: common.getLoginInfo('id'),
+          userId: common.getLoginInfo('type')
+        }
+        console.log(data)
+        getMainCompanyList(data).then(res => {
           this.mianCompanyList = res.data
+          // this.pageNation.total = res.data
         })
       },
 
+      // 页码改变
+      changeCurrent(current) {
+        this.getMainCompanyData(current)
+      },
       // 获取广告位数据
       getAdData() {
         getAdList().then(res => {

@@ -7,42 +7,42 @@ export const getClassify = () => {
   })
 }
 // 获取平台数据
-export const getMainCompanyList = (data) => {
+export const getMainCompanyList = (params) => {
   return request({
-    url: '/get/main/company/list',
+    url: '/TMainPage/listByTMainPage',
     method: 'get',
-    data
+    params
   })
 }
 // 获取平台广告数据
-export const getAdList = (data) => {
+export const getAdList = (params) => {
   return request({
     url: '/get/main/ad/list',
     method: 'get',
-    data
+    params
   })
 }
 // 获取动态数据
-export const getDynamicList = (data) => {
+export const getDynamicList = (params) => {
   return request({
     url: '/get/main/dynamic/list',
     method: 'get',
-    data
+    params
   })
 }
 // 获取聊天数据
-export const getMessageList = (data) => {
+export const getMessageList = (params) => {
   return request({
     url: '/get/main/message/list',
     method: 'get',
-    data
+    params
   })
 }
 // 获取留言数据
-export const getNoteList = (data) => {
+export const getNoteList = (params) => {
   return request({
     url: '/get/main/note/list',
     method: 'get',
-    data
+    params
   })
 }

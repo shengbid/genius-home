@@ -3,6 +3,10 @@
     <div class="bg-white">
       <div class="left-contanier com-container">
         <SiderMenu />
+        <div class="right-drown">
+          <a class="tohome" @click="toHome">去首页</a>|
+          <a class="logout" @click="logout">退出登录</a>
+        </div>
       </div>
     </div>
     <div class="com-container">
@@ -40,6 +44,7 @@
 <script>
   import SiderMenu from './components/sider'
   import copyrightFooter from './components/footer'
+  import { delToken } from '@/utils/utils'
   // import BreadCrumb from './components/breadcrumb'
 
   export default {
@@ -55,6 +60,18 @@
           sessionStorage.removeItem('login')
           this.$router.push({name: 'login'})
         }
+      },
+      toHome(){
+        this.$router.push({
+          name: 'Home'
+        })
+      },
+      logout(){
+        this.$router.push({
+          name: 'Home'
+        })
+        sessionStorage.removeItem('login')
+        delToken()
       }
     }
   }
@@ -118,5 +135,27 @@
     height: 60px;
     line-height: 60px;
     margin: 0;
+  }
+  .layout-contanier {
+    position: relative;
+    .right-drown {
+      position: absolute;
+      right: 10px;
+      top: 23px;
+      font-size: 14px;
+      color: #606266;
+      a {
+        cursor: pointer;
+        &:hover {
+          color: #e61717;
+        }
+      }
+      .tohome {
+        margin-right: 10px;
+      }
+      .logout {
+        margin-left: 5px;
+      }
+    }
   }
 </style>

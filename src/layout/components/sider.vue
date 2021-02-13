@@ -13,9 +13,10 @@
 </template>
 
 <script>
-import menusData from '@/router/menu'
+import getMenus from '@/router/menu'
 import SiderItem from './siderItem'
 import common from '@/utils/common'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Side',
@@ -24,9 +25,15 @@ export default {
   },
   data() {
     return {
-      menus: menusData,
-      defaultOpen: []
+      defaultOpen: [],
+      menus: []
     }
+  },
+  computed: {
+    ...mapState(['type']),
+    // menus() {
+    //   return getMenus(this.type)
+    // } 
   },
   watch: {
     $route(route) {
@@ -35,7 +42,8 @@ export default {
     }
   },
   created() {
-    // console.log(11, this.meuns)
+    console.log(11, this.type)
+    this.menus = getMenus(this.type)
     this.getOpenPath(this.$route)
   },
   methods: {

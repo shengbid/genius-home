@@ -63,11 +63,14 @@ export default {
     }
   },
 
-  // 密码验证8-30位任意字符
-  pwdReg: /^([0-9a-zA-Z]|(?:&)|(?:~)|(?:!)|(?:@)|(?:#)|(?:\$)|(?:%)|(?:\^)|(?:\*)){8,30}$/,
+  // 密码验证x-y位任意字符
+  pwdReg: /^([0-9a-zA-Z]|(?:&)|(?:~)|(?:!)|(?:@)|(?:#)|(?:\$)|(?:%)|(?:\^)|(?:\*)){6,20}$/,
 
   // 电话号码验证
   phoneReg: /^1[3|4|5|6|7|8][0-9]{9}$/,
+
+  // 邮箱验证
+  mailReg: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
 
   // 格式化金钱
   formatUSD (val, currency) {
@@ -262,5 +265,10 @@ export default {
     return false
   },
 
-
+  // 获取登陆信息
+  getLoginInfo (name) {
+    let info = sessionStorage.getItem('login')
+    info = info ? JSON.parse(info) : {}
+    return info[name]
+  }
 }

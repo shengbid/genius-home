@@ -38,9 +38,9 @@
             </ul>
             <div v-show="activeName===1">
               <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
-                <el-form-item prop="account">
+                <el-form-item prop="email">
                   <el-input
-                  v-model="ruleForm.account"
+                  v-model="ruleForm.email"
                   :maxlength="50"
                   placeholder="账号/邮箱"
                   >
@@ -73,9 +73,9 @@
                 ref="registerForm" 
                 class="demo-ruleForm"
               >
-                <el-form-item prop="account">
+                <el-form-item prop="email">
                   <el-input
-                  v-model="register.registerForm.account"
+                  v-model="register.registerForm.email"
                   :maxlength="50"
                   placeholder="邮箱"
                   >
@@ -93,18 +93,18 @@
                   <template slot="prepend" icon="el-icon-lock"></template>
                 </el-input>
                 </el-form-item>
-                <el-form-item prop="password">
+                <el-form-item prop="code">
                   <el-input 
                   v-model="register.registerForm.code" 
                   :maxlength="6"
                   placeholder="验证码"
                   >
-                  <template slot="prepend" icon="el-icon-key"></template>
-                </el-input>
+                   <el-button slot="append" @click="sendRegisterCode">{{register.disabledTips}}</el-button>
+                  </el-input>
                 </el-form-item>
                 <div class="type">
-                  <el-checkbox v-model="register.buyer">成为牛人</el-checkbox>
-                  <el-checkbox v-model="register.supplier">成为商户</el-checkbox>
+                  <el-radio v-model="register.registerForm.type" label="0">成为牛人</el-radio>
+                  <el-radio v-model="register.registerForm.type" label="1">成为商户</el-radio>
                 </div>
                 <div class="agreement">
                   <el-checkbox v-model="register.agree">
@@ -113,7 +113,7 @@
                   </el-checkbox>
                 </div>
                 <el-form-item>
-                  <el-button class="login-bt" type="primary" @click="submitRegister('ruleForm')">注册</el-button>
+                  <el-button class="login-bt" type="primary" @click="submitRegister('registerForm')">注册</el-button>
                 </el-form-item>
               </el-form>
             </div>
@@ -155,9 +155,9 @@
       :close-on-click-modal="false"
       width="450px">
        <el-form :model="forgetPass.ruleForm" :rules="forgetPass.rules" ref="forgetruleForm" class="demo-ruleForm">
-          <el-form-item  prop="account">
+          <el-form-item  prop="email">
             <el-input
-            v-model="forgetPass.ruleForm.account"
+            v-model="forgetPass.ruleForm.email"
             :maxlength="50"
             placeholder="账号"
             />
@@ -198,12 +198,16 @@
 
 <script>
   import slideverify from '@/components/Newcap.vue'
-  import { getAdLoginList } from '@/service/login'
+  import { getAdLoginList, getRegister, getCode,
+  login } from '@/service/login'
   import common from '@/utils/common'
+  import { setToken } from '@/utils/utils'
   import img1 from '@assets/imgs/rotate1.jpg'
   import img2 from '@assets/imgs/rotate2.jpg'
   import img3 from '@assets/imgs/rotate3.jpg'
   import img4 from '@assets/imgs/rotate4.jpg'
+  import { mapMutations } from 'vuex'
+
   export default {
     name: 'Login',
     components: {
@@ -212,21 +216,21 @@
     data() {
       return {
         ruleForm: {
-          account: 'admin',
-          password: '123456'
+          email: '',
+          password: ''
         },
         forgetPass: {
           visible: false,
           count: 60,
           disabledTips: '获取验证码',
           ruleForm: {
-            account: '',
+            email: '',
             phone: '',
             verificationCode: '',
             newPass: ''
           },
           rules: {
-            account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+            email: [{ required: true, message: '请输入账号', trigger: 'blur' }],
             verificationCode: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
             phone: [{
               required: true,
@@ -249,7 +253,7 @@
                 } else if (common.pwdReg.test(value)) {
                   callback()
                 } else {
-                  callback('密码需要8-30位任意字符')
+                  callback('密码需要6-20位任意字符')
                 }
               },
               trigger: 'blur'
@@ -264,23 +268,48 @@
           text: '右滑',
         }, // 滑块字段
         rules: {
-          account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+          email: [{ required: true, validator: (rule, value, callback) => {
+              if (!value) {
+                callback('请输入邮箱')
+              } else if (common.mailReg.test(value)) {
+                callback()
+              } else {
+                callback('邮箱格式不正确')
+              }
+            }, trigger: 'blur' }],
           password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
         },
         loginAdList: [],
         activeName: 1,
         register: {
           registerForm: {
-            account: '',
+            email: '',
             password: '',
-            code: ''
+            code: '',
+            type: '0',
           },
-          buyer: false,
-          supplier: false,
           agree: false,
+          disabledTips: '获取验证码',
+          count: 60,
           rules: {
-            account: [{ required: true, message: '请输入账号', trigger: 'blur' }],
-            password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+            email: [{ required: true, validator: (rule, value, callback) => {
+              if (!value) {
+                callback('请输入邮箱')
+              } else if (common.mailReg.test(value)) {
+                callback()
+              } else {
+                callback('邮箱格式不正确')
+              }
+            }, trigger: 'blur' }],
+            password: [{ required: true, validator: (rule, value, callback) => {
+              if (!value) {
+                callback('请输入密码')
+              } else if (common.pwdReg.test(value)) {
+                callback()
+              } else {
+                callback('密码需要6-20位任意字符')
+              }
+            }, trigger: 'blur' }],
             code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
           }
         } // 忘记密码
@@ -288,8 +317,13 @@
     },
     created() {
       this.getAddata()
+      const {type} = this.$route.params
+      this.activeName = type ? type : 1
+      console.log(type)
     },
     methods: {
+      ...mapMutations(['updateType']),
+
       // 获取登录广告图片
       getAddata() {
         getAdLoginList().then(res => {
@@ -300,23 +334,22 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            if (this.ruleForm.account !== 'admin'
-            || this.ruleForm.password !== '123456') {
-              this.$message.error('账号或密码错误')
-              this.puzzePass.visible = true
-              const h = Math.floor((Math.random()*150))
-              console.log(h)
-              this.$refs.dialogopen && this.$refs.dialogopen.reset(h)
-            } else {
-              const login = JSON.stringify({ type: this.register.buyer ? 1 : 2 })
-              sessionStorage.setItem('login', login)
-              this.$router.push({
-                name: this.register.buyer ? 'User' : 'Business',
-                params: {
-                  type: this.register.buyer ? 1 : 2
+              login(this.ruleForm).then(res => {
+                if (res.data) {
+                  const { data } = res
+                  setToken(data.token)
+                  this.$message.success('登陆成功')
+                  const login = JSON.stringify(data)
+                  sessionStorage.setItem('login', login)
+                  this.$router.push({
+                    name: data.type === '0' ? 'User' : 'Business',
+                    params: {
+                      type: data.type === '0' ? 1 : 2
+                    }
+                  })
+                  this.updateType({type: data.type})
                 }
               })
-            }
           } else {
             console.log('error submit!!')
             return false
@@ -401,14 +434,54 @@
       submitRegister(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$message.success('修改成功')
-            this.forgetPass.visible = false
+            if (this.register.agree) {
+              getRegister(this.register.registerForm).then(res => {
+                this.$message.success('注册成功')
+                this.activeName = 1
+                this.ruleForm.email = this.register.registerForm.email
+                this.ruleForm.password = this.register.registerForm.password
+              })
+            } else {
+              this.$message({
+                type: 'warning',
+                message: '选择同意协议才能进行注册'
+              })
+            }
           } else {
             console.log('error submit!!')
             return false
           }
         })
       },
+
+      // 发送注册验证码
+      sendRegisterCode() {
+        if (!this.register.registerForm.email) {
+          this.$message({
+            type: 'warning',
+            message: '请先输入邮箱'
+          })
+          return
+        }
+        // 防止重复点击
+        if (this.register.count !== 60) {
+          return
+        }
+        this.register.count--
+        this.register.disabledTips = `${this.register.count}秒后重试`
+         const interval = setInterval(() => {
+          this.register.count--
+          this.register.disabledTips = `${this.register.count}秒后重试`
+          if (this.register.count < 0) {
+            clearInterval(interval)
+            this.register.count = 60
+            this.register.disabledTips = '获取验证码'
+          }
+        }, 1000)
+        getCode({toEmail: this.register.registerForm.email}).then(res => {
+          this.$message.success('发送成功!')
+        })
+      }
     }
   }
 </script>

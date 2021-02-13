@@ -1,10 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getNextType } from '../unit'
-import mutations from './mutations'
-import { isFocus } from '../unit'
-import { blankMatrix, lastRecord, maxPoint, blockType } from '../unit/const'
-import Block from '../unit/block'
-import { hasWebAudioAPI } from '../unit/music';
+
 Vue.use(Vuex)
 
+const store = new Vuex.Store({
+  state: {
+    type: '0'
+  },
+  mutations: {
+    updateType (state, payload) {
+      state.type = payload.type
+    }
+  }
+})
+
+export default store
